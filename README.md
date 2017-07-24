@@ -28,7 +28,8 @@ If there is two or more textures which fulfill a situation the texture will be c
 4. all
 
 ## potion_colours.json
-This is a json file containing a sinlge compound containing keys which refer to a specific potion.
+This is a json file containing a single compound containing keys which refer to a specific potion.
+
 The same naming convention is applied to the keys in the json file ie "wither_splash", "wither", "splash", "all" are all valid keys for potion_colours.json
 
 Each key has a value which is the colour to tint the potion colours located inside the liquids folder.
@@ -39,7 +40,7 @@ The key can be a hex value ie "2D5197" / "#2D5197" the # is optional or an rgb v
 After running the script a folder named output will be created in the same folder as potions.py, which will contain all the textures created.
 
 ## Potion Names
-potions.py will only accpet specific names for potion types.
+potions.py will only accept specific names for potion types.
 
 They are as follows:
 
