@@ -37,3 +37,26 @@ The key can be a hex value ie "2D5197" / "#2D5197" the # is optional or an rgb v
 
 ## Texture Output
 After running the script a folder named output will be created in the same folder as potions.py, which will contain all the textures created.
+
+## Potion Names
+potions.py will only accpet specific names for potion types.
+
+They are as follows:
+
+|Potion Type|potions.py name|
+|-|-|
+|strength|damageBoost|
+|fire resistance|fireResistance|
+|instant damage|harm|
+|instant health|heal|
+|invisibility|invisibility|
+|jump boost|jump|
+|slowness|moveSlowdown|
+|swiftness|moveSpeed|
+|night vision|nightVision|
+|poison|poison|
+|regeneration|regeneration|
+|water breathing|waterBreathing|
+|weakness|weakness|
+|wither|wither|
+|water / mundane / thick / awkward|water|
