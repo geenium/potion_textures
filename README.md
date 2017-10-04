@@ -5,7 +5,7 @@ The potions_file folder and potions.py must be in the same folder.
 
 All textures specified must be the same size.
 
-#(If running the python script, rather than the exe):
+# (If running the python script, rather than the exe):
 potions.py requires pillow
 
     pip install pillow
