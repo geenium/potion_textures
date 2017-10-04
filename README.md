@@ -1,13 +1,14 @@
 # potion_textures
 Creates all potion textures from a small number of files
 ## Requirements
-potions.py requires pillow
-
-    pip install pillow
-
 The potions_file folder and potions.py must be in the same folder.
 
 All textures specified must be the same size.
+
+#(If running the python script, rather than the exe):
+potions.py requires pillow
+
+    pip install pillow
 
 ## Specific Textures
 You can specify a bottle texture or potion liquid texture for specific potion textures.
