@@ -2,6 +2,7 @@ from json import loads as jsonLoads
 from PIL import Image
 from os import path, mkdir
 from shutil import copy2
+from sys import exit as sys_exit
 
 
 # Re-colours the greyscale potion image, and returns the new tinted image
@@ -64,7 +65,10 @@ def get_texture(item, effect, bottle):
                     return Image.open(folder + "all.png")
                 # If all.png is not there a texture cannot be produced
                 except FileNotFoundError:
-                    print(effect, item, "texture not available!\n")
+                    if effect != "":
+                        print(bottle, effect, item, "texture not available!\n")
+                    else:
+                        print(bottle, item, "texture not available!\n")
                     # If no texture is found False is returned
                     # This value is checked for later on
                     return False
@@ -96,6 +100,12 @@ Using default potion colour.\n")
                     # Just white is used if no other colour is found
                     return [255, 255, 255]
 
+#Checks if ther is a folder named potion_files
+#If there isn't the script stops
+if not path.isdir("potion_files"):
+    input("No potion_files folder found!\nPress 'Enter' to exit\n>> ")
+    sys_exit(0)
+
 # These are the only potion textures actually used in game
 potion_list = ["damageBoost", "fireResistance", "harm", "heal", "invisibility",
                "jump", "moveSlowdown", "moveSpeed", "nightVision", "poison",
@@ -104,8 +114,12 @@ potion_list = ["damageBoost", "fireResistance", "harm", "heal", "invisibility",
 bottle_list = ["drinkable", "lingering", "splash"]
 
 # Gets the colours for the potions from the json file
-with open("potion_files/potion_colours.json", "r") as f:
-    potion_colours = jsonLoads(f.read())
+try:
+    with open("potion_files/potion_colours.json", "r") as f:
+        potion_colours = jsonLoads(f.read())
+except FileNotFoundError:
+    print("potion_colors.json not found no tint will be applied!\n")
+    potion_colours = {}
 
 # Changes "water" to "" as this is used as the texture name
 try:
@@ -125,17 +139,25 @@ if not path.isdir("output"):
 for effect in potion_list:
     for bottle in bottle_list:
         bottle_texture = get_texture("bottle", effect, bottle)
-        potion_texture = blend_multiply(get_texture("potion", effect, bottle),
-                                        get_colour(effect, bottle))
-        # If the two images are not the same size
-        # alpha_composite cannot be used
-        if bottle_texture.size != potion_texture.size:
-            print("Bottle texture and potion greyscale need to be the same \
-size.\nUnable to create", bottle, "potion of", effect, "texture.\n")
-            continue
+        potion_init = get_texture("potion", effect, bottle)
+
+        #Checks if potion colours, has been defined
+        if potion_colours != {}:
+            potion_tint = get_colour(effect, bottle)
+        else:
+            potion_tint = 0
+
+        if potion_init:
+            potion_texture = blend_multiply(potion_init, potion_tint)
 
         # Checks if either of the textures has returned "False"
-        if bottle_texture and potion_texture:
+        if bottle_texture and potion_init:
+            # If the two images are not the same size
+            # alpha_composite cannot be used
+            if bottle_texture.size != potion_texture.size:
+                print("Bottle texture and potion greyscale need to be the \
+same size.\nUnable to create", bottle, "potion of", effect, "texture.\n")
+                continue
             bottle = "_" + bottle
             if effect != "":
                 if bottle == "_drinkable":
@@ -152,12 +174,12 @@ bottle_path = "potion_files/bottles/"
 try:
     copy2(bottle_path + "drinkable.png", empty_bottle)
 except FileNotFoundError:
-    # If the empty drinakble bottle doesn't exist bottles/all.png will be used
+    # If the empty drinkable bottle doesn't exist bottles/all.png will be used
     try:
         copy2(bottle_path + "all.png", empty_bottle)
     except FileNotFoundError:
         # If no file is found then it cannot create an empty bottle texture
         print("Cannot find empty drinkable bottle.\nNo empty bottle texture \
-              produced!")
+produced!\n")
 
-input("Potion files created.\nPress Enter to exit\n>> ")
+input("Potion files created.\nPress 'Enter' to exit\n>> ")
