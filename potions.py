@@ -145,7 +145,7 @@ for effect in potion_list:
         if potion_colours != {}:
             potion_tint = get_colour(effect, bottle)
         else:
-            potion_tint = 0
+            potion_tint = [255, 255, 255]
 
         if potion_init:
             potion_texture = blend_multiply(potion_init, potion_tint)
